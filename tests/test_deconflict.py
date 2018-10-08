@@ -27,10 +27,10 @@ class TestDeconflict:
         deconflictor = Deconflict(test_data_reader)
         conflicted_meetings = deconflictor.find_conflicts()
 
-        expected_meetings = [Meeting('9:00am', '10:00am'),
-                             Meeting('9:30am', '10:30am'),
-                             Meeting('10:45am', '1:00pm'),
-                             Meeting('12:00pm', '1:00pm')]
+        expected_meetings = [(Meeting('9:00am', '10:00am'),
+                              Meeting('9:30am', '10:30am')),
+                             (Meeting('10:45am', '1:00pm'),
+                              Meeting('12:00pm', '1:00pm'))]
 
         assert sorted(conflicted_meetings) == sorted(expected_meetings)
 
@@ -42,8 +42,7 @@ class TestDeconflict:
         deconflictor = Deconflict(test_data_reader)
         conflicted_meetings = deconflictor.find_conflicts()
 
-        assert sorted(conflicted_meetings) == sorted(test_data)
+        expected_meetings = [(Meeting('10:00am', '11:00am'),
+                              Meeting('10:01am', '10:59am'))]
 
-
-
-
+        assert sorted(conflicted_meetings) == sorted(expected_meetings)
