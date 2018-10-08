@@ -6,10 +6,9 @@ from meeting_deconflictor.meetings_file_csv_reader import MeetingsFileCsvReader
 class Deconflict:
     """ This class holds the core conflict detection logic. """
 
-    def __init__(self, meetings_filename):
-        # A next level improvement would be to pass in the Reader itself.  That way we could easily switch between
-        # different reader formats, like xml or json.
-        self.reader = MeetingsFileCsvReader(meetings_filename)
+    def __init__(self, reader):
+        # Accept a reader so we can easily switch between different reader formats, like xml or json.
+        self.reader = reader
 
     def find_conflicts(self):
         """ Read the file and return a List of meetings with conflicts. """
@@ -34,8 +33,8 @@ class Deconflict:
         return conflicted_meetings
 
     @classmethod
-    def generate_report_for_file(cls, meetings_filename):
-        deconflictor = Deconflict(meetings_filename)
+    def generate_report_for_file(cls, reader):
+        deconflictor = Deconflict(reader)
         conflicts = deconflictor.find_conflicts()
 
         print(conflicts)
@@ -44,6 +43,8 @@ class Deconflict:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Process a meetings file and report conflicts')
     parser.add_argument('filename', type=str, help='Full path to meetings file to process')
-
     args = parser.parse_args()
-    Deconflict.generate_report_for_file(args.filename)
+
+    # Just a simple CSV reader for now, we could easily expand to support other formats based on arguments.
+    csv_reader = MeetingsFileCsvReader(args.filename)
+    Deconflict.generate_report_for_file(csv_reader)
