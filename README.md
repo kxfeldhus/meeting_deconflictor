@@ -17,3 +17,11 @@ walk us through your solution. If time allows, we may propose a small
 extension of the requirements that we'll code together in pair-programming
 style. Have fun!
 
+
+## Usage
+
+python -m meeting_deconflictor.deconflict FILENAME
+
+Example:
+>python -m meeting_deconflictor.deconflict /Users/kfeldhus/code/meeting_deconflictor/tests/data/times
+
