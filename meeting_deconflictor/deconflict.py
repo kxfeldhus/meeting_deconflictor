@@ -14,7 +14,6 @@ class Deconflict:
 
         self.reader = reader
 
-
     def find_conflicts(self):
         """ Read the file and return a List of meetings with conflicts. """
         meetings = self.reader.read()
