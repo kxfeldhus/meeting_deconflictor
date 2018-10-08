@@ -25,3 +25,9 @@ python -m meeting_deconflictor.deconflict FILENAME
 Example:
 >python -m meeting_deconflictor.deconflict /Users/kfeldhus/code/meeting_deconflictor/tests/data/times
 
+
+## Development
+
+### Testing
+
+> pytest

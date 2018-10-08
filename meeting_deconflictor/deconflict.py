@@ -1,34 +1,33 @@
 import argparse
-import csv
 
-from meeting_deconflictor.meeting import Meeting
+from meeting_deconflictor.meetings_file_csv_reader import MeetingsFileCsvReader
 
 
 class Deconflict:
+    """ This class holds the core conflict detection logic. """
 
     def __init__(self, meetings_filename):
-        self.meetings_filename = meetings_filename
-
-    def read_file(self):
-        meetings = []
-        with open(self.meetings_filename) as input_times_file:
-            input_reader = csv.DictReader(input_times_file)
-            for row in input_reader:
-                meeting = Meeting(row['start'], row['end'])
-                meetings.append(meeting)
-
-        return meetings
+        # A next level improvement would be to pass in the Reader itself.  That way we could easily switch between
+        # different reader formats, like xml or json.
+        self.reader = MeetingsFileCsvReader(meetings_filename)
 
     def find_conflicts(self):
-        meetings = Deconflict.read_file(self)
+        """ Read the file and return a List of meetings with conflicts. """
+        meetings = self.reader.read()
 
+        # Meetings must be sorted by start_time in order to detect conflicts with adjacent meetings.
         sorted_meetings = sorted(meetings)
         conflicted_meetings = []
 
+        # Starting with the first meeting and going to the n-1 meeting to avoid overrun.
         for i in range(len(sorted_meetings)-1):
+
+            # We are always checking the current meeting to the next meeting until we hit the next to last one.
             current_meeting = sorted_meetings[i]
             next_meeting = sorted_meetings[i+1]
 
+            # Core overlap detection.  If the end time of the current meeting is after the start time of the next
+            #  meeting then we have a conflict.
             if current_meeting.end_time > next_meeting.start_time:
                 conflicted_meetings.extend([current_meeting, next_meeting])
 
