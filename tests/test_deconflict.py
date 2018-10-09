@@ -46,3 +46,14 @@ class TestDeconflict:
                               Meeting('10:01am', '10:59am'))]
 
         assert sorted(conflicted_meetings) == sorted(expected_meetings)
+
+    def test_deconflict_no_meetings(self):
+        # Make sure we handle when no meetings are provided.
+        test_data = []
+        test_data_reader = MockDataReader(test_data)
+        deconflictor = Deconflict(test_data_reader)
+        conflicted_meetings = deconflictor.find_conflicts()
+
+        expected_meetings = []
+
+        assert conflicted_meetings == expected_meetings

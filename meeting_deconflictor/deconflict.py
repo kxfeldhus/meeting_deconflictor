@@ -51,10 +51,11 @@ class Deconflict:
             report out in various ways and formats.  Like to stdout here, or to a file, or send an email, or publish to
             a web service.
         """
+        conflict_count = len(conflicts)
         print("Conflict Report:")
         for conflict1, conflict2 in conflicts:
-            print(f'{conflict1} --- conflicts with --- {conflict2}')
-
+            print(f"{conflict1} --- conflicts with --- {conflict2}")
+        print(f"Conflict Total: {conflict_count}")
 
 
 if __name__ == "__main__":
